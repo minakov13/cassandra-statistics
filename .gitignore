@@ -1,0 +1,8 @@
+.directory
+/.idea
+/target
+atlassian-ide-plugin.xml
+*.log
+*.ipr
+*.iws
+*.iml
