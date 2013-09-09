@@ -1,46 +1,82 @@
 package org.aminakov.cassandra;
 
-import me.prettyprint.cassandra.serializers.StringSerializer;
-import me.prettyprint.hector.api.ddl.ColumnFamilyDefinition;
-import me.prettyprint.hector.api.factory.HFactory;
-import me.prettyprint.hector.api.mutation.Mutator;
 import org.aminakov.cassandra.dao.Constants;
+import org.aminakov.cassandra.dao.UserDao;
+import org.aminakov.cassandra.dao.UserDaoImpl;
+import org.aminakov.cassandra.model.User;
+import org.codehaus.jackson.map.ObjectMapper;
 
-  public class App
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class App
 {
-    public static void main( String[] args ) {
-//         List<User> users = new ArrayList<User>();
-////         Cassandra cassandra = new Cassandra();
-//         for (int i = 0; i < 100; i++) {
-//                 User user = new User();
-//                 user.setFirstName("firstName" + i);
-//                 user.setLastName("lastName" + 1);
-//                 user.setPhone("phone" + 1);
-//                 user.setPhoneHash("phoneHash" + 1);
-//                 user.setNickname("nickName" + 1);
-//                 user.setEmail("email" + 1);
-//                 user.setPostalCode("postalCode" + 1);
-//                 user.setBirthDate("birthDate" + 1);
-//                 user.setBio("bio" + 1);
-//                 user.setSex("sex" + 1);
-//                 user.setAvatar("avatar" + 1);
-//                 user.setWallpaper("wallpaper" + 1);
-//                 user.setPin("pin" + 1);
-//                 user.setRegistrationDate(System.currentTimeMillis());
-//                 user.setSmsNickname("smsNickName" + 1);
-//                 users.add(user);
-//         }
-//         for (User u : users) {
-//            cassandra.insert(u);
-//         }
-        Constants constants = new Constants("TestCluster", "Qwerty", "TestCf", "127.0.0.1");
-        ColumnFamilyDefinition cf = constants.getNewCfDef("familyCf");
-        constants.getCurrentClstr().addColumnFamily(cf);
-        StringSerializer stringSerializer = StringSerializer.get();
-        Mutator<String> mutator = HFactory.createMutator(constants.getKeyspace(), stringSerializer);
-        mutator.insert("names", cf.getName(), HFactory.createStringColumn("1", "Ivanov"));
-        mutator.insert("names", cf.getName(), HFactory.createStringColumn("2", "Sidorov"));
-        mutator.insert("names", cf.getName(), HFactory.createStringColumn("3", "Petrov"));
-        System.out.println("Done..");
+    public static ObjectMapper jsonMapper = new ObjectMapper();
+
+    public static void main( String[] args ) throws IOException {
+        List<User> users = new ArrayList<>();
+        List<String> results = new ArrayList<>();
+        UserDao userDao = new UserDaoImpl();
+        for (int i = 0; i < 20; i++) {
+            User user = new User();
+            user.setId(String.valueOf(i));
+            user.setFirstName("firstName" + i);
+            user.setLastName("lastName" + i);
+            user.setPhone("phone" + i);
+            user.setPhoneHash("phoneHash" + i);
+            user.setNickname("nickName" + i);
+            user.setEmail("email" + i);
+            user.setPostalCode("postalCode" + i);
+            user.setBirthDate("birthDate" + i);
+            user.setBio("bio" + i);
+            user.setSex("sex" + i);
+            user.setAvatar("avatar" + i);
+            user.setWallpaper("wallpaper" + i);
+            user.setPin("pin" + i);
+            user.setRegistrationDate(System.currentTimeMillis());
+            user.setSmsNickname("smsNickName" + i);
+            users.add(user);
+        }
+        Constants constants = new Constants("TestCluster", "Qwerty", "Users", "127.0.0.1");
+       /* for (User u : users) {
+            String json = jsonMapper.writeValueAsString(u);
+            System.out.println(u.toString());
+            System.out.println("============= JSON ===========");
+            System.out.println(json);
+           *//* try {
+                Mutator<String> mutator = HFactory.createMutator(constants.getKeyspace(), StringSerializer.get());
+                System.out.println("Creating new mutator");
+
+                mutator.insert(u.getId(), constants.CF_NAME, HFactory.createStringColumn(u.getId(), json));
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }*//*
+
+            System.out.println("User was added, id:" + u.getId());
+        }*/
+        results = userDao.persist(users);
+        for (String s : results) {
+            System.out.println(s);
+        }
+
+        /*SliceQuery<String, String, String> usersFromCassondra = HFactory.createSliceQuery(constants.getKeyspace(), StringSerializer.get(), StringSerializer.get(), StringSerializer.get());
+        usersFromCassondra.setColumnFamily(constants.CF_NAME).setKey("9").setRange("", "", false, Integer.MAX_VALUE - 1);
+        ColumnSliceIterator<String, String, String> result = new ColumnSliceIterator<String, String, String>(usersFromCassondra, "", "", false);
+        while (result.hasNext()) {
+            HColumnImpl<String, String> column = (HColumnImpl<String, String>) result.next();
+            User res = null;
+            res = jsonMapper.readValue(column.getValue(), User.class);
+            System.out.println(res.toString());
+        }*/
+        for (User user : users) {
+            userDao.delete(user);
+        }
+
+//        mutator.insert("names", cf.getName(), HFactory.createStringColumn("1", "Ivanov"));
+//        mutator.insert("names", cf.getName(), HFactory.createStringColumn("2", "Sidorov"));
+//        mutator.insert("names", cf.getName(), HFactory.createStringColumn("3", "Petrov"));
+//        System.out.println("Done..");
     }
 }
