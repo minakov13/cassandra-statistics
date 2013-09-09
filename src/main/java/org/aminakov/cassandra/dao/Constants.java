@@ -6,6 +6,7 @@ import me.prettyprint.cassandra.service.CassandraHostConfigurator;
 import me.prettyprint.hector.api.Cluster;
 import me.prettyprint.hector.api.Keyspace;
 import me.prettyprint.hector.api.ddl.ColumnFamilyDefinition;
+import me.prettyprint.hector.api.ddl.ComparatorType;
 import me.prettyprint.hector.api.ddl.KeyspaceDefinition;
 import me.prettyprint.hector.api.factory.HFactory;
 
@@ -37,6 +38,7 @@ public class Constants {
     public BasicColumnFamilyDefinition getNewCfDef(String name) {
         this.columnFamilyDefinition = new BasicColumnFamilyDefinition();
         this.columnFamilyDefinition.setKeyspaceName(KEYSPACE_NAME);
+        this.columnFamilyDefinition.setComparatorType(ComparatorType.UTF8TYPE);
         this.columnFamilyDefinition.setName(name);
         return this.columnFamilyDefinition;
     }
