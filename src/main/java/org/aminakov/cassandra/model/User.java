@@ -1,11 +1,13 @@
 package org.aminakov.cassandra.model;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Date;
 
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class User implements Serializable {
     /**
      * Class version.
@@ -13,15 +15,6 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String id;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     private String firstName;
     private String lastName;
     private String phone;
@@ -36,10 +29,17 @@ public class User implements Serializable {
     private String wallpaper;
     private String pin;
     private boolean receiveAnyDM = false;
-//    private SpotbotRole role;
     private Long registrationDate = new Date().getTime();
     private String smsNickname;
 
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -104,14 +104,6 @@ public class User implements Serializable {
     public void setPin(String pin) {
         this.pin = pin;
     }
-
-//    public SpotbotRole getRole() {
-//        return role;
-//    }
-
-//    public void setRole(SpotbotRole role) {
-//        this.role = role;
-//    }
 
     public String getPhone() {
         return phone;
@@ -179,8 +171,6 @@ public class User implements Serializable {
     public void setSmsNickname(String smsNickname) {
         this.smsNickname = smsNickname;
     }
-
-    // TODO: check if updateProfile(...) and asProfile(...) methods should be moved to a separate service
 
     /**
      * Updates fields that are contained in the user profile
