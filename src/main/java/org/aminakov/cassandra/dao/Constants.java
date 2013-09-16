@@ -18,10 +18,10 @@ public class Constants {
     public String HOST;
 
     private Cluster cluster;
-    private BasicColumnFamilyDefinition columnFamilyDefinition;
-    private BasicKeyspaceDefinition keyspaceDefinition;
+    BasicColumnFamilyDefinition columnFamilyDefinition;
+    BasicKeyspaceDefinition keyspaceDefinition;
 
-    private BasicKeyspaceDefinition getNewKeyspaceDef() {
+    BasicKeyspaceDefinition getNewKeyspaceDef() {
         keyspaceDefinition = new BasicKeyspaceDefinition();
         keyspaceDefinition.setName(KEYSPACE_NAME);
         keyspaceDefinition.setDurableWrites(true);
@@ -87,6 +87,24 @@ public class Constants {
         } else {
             return this.cluster;
         }
+    }
+
+    public void addColumnFamily(ColumnFamilyDefinition columnFamilyDefinition) {
+        boolean isPresent = false;
+        for (KeyspaceDefinition def : cluster.describeKeyspaces()) {
+            for (ColumnFamilyDefinition cf : def.getCfDefs()) {
+
+                if (cf.getName().equals(columnFamilyDefinition.getName()))
+                    isPresent = true;
+            }
+        }
+        if (!isPresent) {
+            cluster.addColumnFamily(columnFamilyDefinition);
+        }
+    }
+
+    public void dropColumnFamily(String columnFamilyName) {
+        cluster.dropColumnFamily(KEYSPACE_NAME, columnFamilyName);
     }
 
     public Constants(String clName, String ksName, String cfName, String host) {

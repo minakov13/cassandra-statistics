@@ -90,6 +90,10 @@ public class UserDaoImplTests {
             }
             Assert.assertNull(column);
 
+            Assert.assertNotNull(constants);
+            Assert.assertNotNull(userDao);
+            Assert.assertNotNull(keys);
+
         } finally {
             if (constants != null) {
                 constants.getCurrentClstr().dropKeyspace("Qwerty");

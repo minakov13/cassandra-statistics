@@ -16,7 +16,7 @@ public class App
 
     public static void main( String[] args ) throws IOException {
         List<User> users = new ArrayList<>();
-        List<String> results = new ArrayList<>();
+        List<String> results;
         UserDao userDao = new UserDaoImpl();
         for (int i = 0; i < 20; i++) {
             User user = new User();
@@ -70,13 +70,25 @@ public class App
             res = jsonMapper.readValue(column.getValue(), User.class);
             System.out.println(res.toString());
         }*/
-        for (User user : users) {
-            userDao.delete(user);
+        List<String> keys = new ArrayList<>();
+        for (int j = 0; j < 10; j++) {
+            keys.add(Integer.toString(j));
         }
-
-//        mutator.insert("names", cf.getName(), HFactory.createStringColumn("1", "Ivanov"));
-//        mutator.insert("names", cf.getName(), HFactory.createStringColumn("2", "Sidorov"));
-//        mutator.insert("names", cf.getName(), HFactory.createStringColumn("3", "Petrov"));
-//        System.out.println("Done..");
+        for (User u : userDao.getById(keys)) {
+            System.out.println("================================");
+            System.out.println(u);
+        }
+        List<User> all = userDao.getAll("lastNameIndex", "last", 3);
+        System.out.println("+++++++++++++++++++++++++++++++++++");
+        for (User u : all) {
+            System.out.println(u.toString());
+        }
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+        System.out.println(userDao.getByFirstName("firstName10"));
+        System.out.println(userDao.getByLastName("lastName8"));
+        System.out.println(userDao.getByEmail("email3"));
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+        System.out.println(userDao.countAll());
+        userDao.delete(users);
     }
 }

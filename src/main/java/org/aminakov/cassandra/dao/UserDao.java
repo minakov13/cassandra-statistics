@@ -6,21 +6,13 @@ import java.util.List;
 
 public interface UserDao extends AbstractDao<String, User> {
 
-    User getByPhone(String phoneNumber);
+    List<User> getByLastName(String lastName);
 
-    List<User> getByPhoneHashes(List<String> phoneHashes);
-
-    User getByNickname(String nickname);
-
-    List<User> getByNicknames(List<String> nicknames);
-
-    User getBySMSNickname(String nickname);
-
-    List<String> findUserIdsByPhone(List<String> phoneNumbers);
+    List<User> getByFirstName(String firstName);
 
     List<User> getByEmail(String email);
 
-    List<User> getAll(int count);
+    List<User> getAll(String indexName, String startFrom, int count);
 
     int countAll();
 }
