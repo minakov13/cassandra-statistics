@@ -71,7 +71,7 @@ public class UserDaoImplTests {
 
         } finally {
             if (constants != null) {
-                constants.getCurrentClstr().dropKeyspace("Qwerty");
+                constants.getCurrentCluster().dropKeyspace("Qwerty");
             }
         }
     }
@@ -96,7 +96,7 @@ public class UserDaoImplTests {
 
         } finally {
             if (constants != null) {
-                constants.getCurrentClstr().dropKeyspace("Qwerty");
+                constants.getCurrentCluster().dropKeyspace("Qwerty");
             }
         }
     }
