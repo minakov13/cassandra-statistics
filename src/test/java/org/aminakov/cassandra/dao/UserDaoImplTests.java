@@ -1,5 +1,10 @@
 package org.aminakov.cassandra.dao;
 
+/**
+ * @author Oleksandr Minakov
+ * date: 8/9/13
+ */
+
 import me.prettyprint.cassandra.model.HColumnImpl;
 import me.prettyprint.cassandra.serializers.StringSerializer;
 import me.prettyprint.cassandra.service.ColumnSliceIterator;

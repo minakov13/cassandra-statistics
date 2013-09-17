@@ -1,5 +1,11 @@
 package org.aminakov.cassandra.utils;
 
+/**
+ * @author Oleksandr Minakov
+ * date: 8/8/13
+ */
+
+
 import me.prettyprint.hector.api.beans.HColumn;
 import me.prettyprint.hector.api.factory.HFactory;
 import org.aminakov.cassandra.model.User;

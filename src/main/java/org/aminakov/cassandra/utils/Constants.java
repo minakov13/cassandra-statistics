@@ -1,5 +1,11 @@
 package org.aminakov.cassandra.utils;
 
+/**
+ * @author Oleksandr Minakov
+ * date: 8/8/13
+ */
+
+
 import me.prettyprint.cassandra.model.BasicColumnFamilyDefinition;
 import me.prettyprint.cassandra.model.BasicKeyspaceDefinition;
 import me.prettyprint.cassandra.service.CassandraHostConfigurator;

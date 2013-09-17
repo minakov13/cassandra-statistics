@@ -1,5 +1,10 @@
 package org.aminakov.cassandra.model;
 
+/**
+ * @author Oleksandr Minakov
+ * date: 8/4/13
+ */
+
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 

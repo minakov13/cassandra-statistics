@@ -1,5 +1,10 @@
 package org.aminakov.cassandra.dao;
 
+/**
+ * @author Oleksandr Minakov
+ * date: 8/4/13
+ */
+
 import me.prettyprint.cassandra.model.HColumnImpl;
 import me.prettyprint.cassandra.serializers.CompositeSerializer;
 import me.prettyprint.cassandra.serializers.StringSerializer;
@@ -15,7 +20,6 @@ import me.prettyprint.hector.api.query.SliceQuery;
 import org.aminakov.cassandra.model.User;
 import org.aminakov.cassandra.utils.Constants;
 import org.codehaus.jackson.map.ObjectMapper;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
