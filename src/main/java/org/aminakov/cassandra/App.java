@@ -1,6 +1,6 @@
 package org.aminakov.cassandra;
 
-import org.aminakov.cassandra.dao.Constants;
+import org.aminakov.cassandra.utils.Constants;
 import org.aminakov.cassandra.dao.UserDao;
 import org.aminakov.cassandra.dao.UserDaoImpl;
 import org.aminakov.cassandra.model.User;
@@ -15,7 +15,7 @@ public class App
     public static ObjectMapper jsonMapper = new ObjectMapper();
 
     public static void main( String[] args ) throws IOException {
-        List<User> users = new ArrayList<>();
+        List<User> users = new ArrayList<User>();
         List<String> results;
         UserDao userDao = new UserDaoImpl();
         for (int i = 0; i < 20; i++) {
@@ -70,7 +70,7 @@ public class App
             res = jsonMapper.readValue(column.getValue(), User.class);
             System.out.println(res.toString());
         }*/
-        List<String> keys = new ArrayList<>();
+        List<String> keys = new ArrayList<String>();
         for (int j = 0; j < 10; j++) {
             keys.add(Integer.toString(j));
         }

@@ -10,7 +10,7 @@ import java.util.List;
 public class UserConverter {
 
     public static List<HColumn<String, String>> user2row(User user) {
-        List<HColumn<String, String>> hColumns = new ArrayList<>();
+        List<HColumn<String, String>> hColumns = new ArrayList<HColumn<String, String>>();
         hColumns.add(HFactory.createColumn("id", user.getId()));
         hColumns.add(HFactory.createColumn("firstName", user.getFirstName()));
         hColumns.add(HFactory.createColumn("lastName", user.getLastName()));

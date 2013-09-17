@@ -13,6 +13,7 @@ import me.prettyprint.hector.api.query.QueryResult;
 import me.prettyprint.hector.api.query.RangeSlicesQuery;
 import me.prettyprint.hector.api.query.SliceQuery;
 import org.aminakov.cassandra.model.User;
+import org.aminakov.cassandra.utils.Constants;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
@@ -45,7 +46,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<String> persist(List<User> entityList) {
-        List<String> keys = new ArrayList<>();
+        List<String> keys = new ArrayList<String>();
         for (User user : entityList) {
             keys.add(persist(user));
         }
@@ -104,7 +105,7 @@ public class UserDaoImpl implements UserDao {
         SliceQuery<String, String, String> usersFromCassondra = HFactory.createSliceQuery(constants.getKeyspace(),
                 StringSerializer.get(), StringSerializer.get(), StringSerializer.get());
         usersFromCassondra.setColumnFamily(constants.CF_NAME).setKey(key).setRange("", "", false, Integer.MAX_VALUE - 1);
-        ColumnSliceIterator<String, String, String> result = new ColumnSliceIterator<>(usersFromCassondra, "", "", false);
+        ColumnSliceIterator<String, String, String> result = new ColumnSliceIterator<String, String, String>(usersFromCassondra, "", "", false);
         while (result.hasNext()) {
             HColumnImpl<String, String> column = (HColumnImpl<String, String>) result.next();
             try {
@@ -118,7 +119,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getById(List<String> keys) {
-        List<User> users = new ArrayList<>();
+        List<User> users = new ArrayList<User>();
         for (String key : keys) {
             users.add(getById(key));
         }
@@ -127,7 +128,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getByLastName(String lastName) {
-        List<String> keys = new ArrayList<>();
+        List<String> keys = new ArrayList<String>();
         Composite startRange = new Composite();
         startRange.add(0, lastName);
         SliceQuery<String, Composite, String> query = HFactory.createSliceQuery(constants.getKeyspace(), StringSerializer.get(),
@@ -143,7 +144,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getByFirstName(String firstName) {
-        List<String> keys = new ArrayList<>();
+        List<String> keys = new ArrayList<String>();
         Composite startRange = new Composite();
         startRange.add(0, firstName);
         SliceQuery<String, Composite, String> query = HFactory.createSliceQuery(constants.getKeyspace(), StringSerializer.get(),
@@ -159,7 +160,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getByEmail(String email) {
-        List<String> keys = new ArrayList<>();
+        List<String> keys = new ArrayList<String>();
         Composite startRange = new Composite();
         startRange.add(0, email);
         SliceQuery<String, Composite, String> query = HFactory.createSliceQuery(constants.getKeyspace(), StringSerializer.get(),
@@ -175,7 +176,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getAll(String indexName, String startFrom, int count) {
-        List<User> users = new ArrayList<>();
+        List<User> users = new ArrayList<User>();
         Composite startRange = new Composite();
         startRange.add(0, startFrom);
         SliceQuery<String, Composite, String> query = HFactory.createSliceQuery(constants.getKeyspace(), StringSerializer.get(),
@@ -194,7 +195,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     private List<String> getRowKeys(String startFrom, int count) {
-        List<String> keys = new ArrayList<>();
+        List<String> keys = new ArrayList<String>();
         RangeSlicesQuery<String, String, String> userIds = HFactory.createRangeSlicesQuery(constants.getKeyspace(),
                 StringSerializer.get(), StringSerializer.get(), StringSerializer.get());
         userIds.setColumnFamily(constants.CF_NAME).setKeys(startFrom, "").setReturnKeysOnly().setRowCount(count);

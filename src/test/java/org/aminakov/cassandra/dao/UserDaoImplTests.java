@@ -6,6 +6,7 @@ import me.prettyprint.cassandra.service.ColumnSliceIterator;
 import me.prettyprint.hector.api.factory.HFactory;
 import me.prettyprint.hector.api.query.SliceQuery;
 import org.aminakov.cassandra.model.User;
+import org.aminakov.cassandra.utils.Constants;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Before;
@@ -27,7 +28,7 @@ public class UserDaoImplTests {
         constants = new Constants("TestCluster", "Qwerty", "Users", "127.0.0.1");
         userDao = new UserDaoImpl();
 
-        users = new ArrayList<>();
+        users = new ArrayList<User>();
         for (int i = 0; i < 100; i++) {
             User user = new User();
             user.setId(String.valueOf(i));
@@ -56,7 +57,7 @@ public class UserDaoImplTests {
             keys = userDao.persist(users);
             SliceQuery<String, String, String> usersFromCassondra = HFactory.createSliceQuery(constants.getKeyspace(), StringSerializer.get(), StringSerializer.get(), StringSerializer.get());
             usersFromCassondra.setColumnFamily(constants.CF_NAME).setKey("3").setRange("", "", false, Integer.MAX_VALUE - 1);
-            ColumnSliceIterator<String, String, String> result = new ColumnSliceIterator<>(usersFromCassondra, "", "", false);
+            ColumnSliceIterator<String, String, String> result = new ColumnSliceIterator<String, String, String>(usersFromCassondra, "", "", false);
             HColumnImpl<String, String> column = null;
             while (result.hasNext()) {
                 column = (HColumnImpl<String, String>) result.next();
@@ -83,7 +84,7 @@ public class UserDaoImplTests {
             userDao.delete(users.get(3));
             SliceQuery<String, String, String> usersFromCassondra = HFactory.createSliceQuery(constants.getKeyspace(), StringSerializer.get(), StringSerializer.get(), StringSerializer.get());
             usersFromCassondra.setColumnFamily(constants.CF_NAME).setKey("3").setRange("", "", false, Integer.MAX_VALUE - 1);
-            ColumnSliceIterator<String, String, String> result = new ColumnSliceIterator<>(usersFromCassondra, "", "", false);
+            ColumnSliceIterator<String, String, String> result = new ColumnSliceIterator<String, String, String>(usersFromCassondra, "", "", false);
             HColumnImpl<String, String> column = null;
             while (result.hasNext()) {
                 column = (HColumnImpl<String, String>) result.next();

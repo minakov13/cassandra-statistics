@@ -1,4 +1,4 @@
-package org.aminakov.cassandra.dao;
+package org.aminakov.cassandra.utils;
 
 import me.prettyprint.cassandra.model.BasicColumnFamilyDefinition;
 import me.prettyprint.cassandra.model.BasicKeyspaceDefinition;
@@ -30,7 +30,7 @@ public class Constants {
         return this.defaultKeyspaceDefinition;
     }
 
-    Keyspace getKeyspace() {
+    public Keyspace getKeyspace() {
         getCurrentCluster();
         return HFactory.createKeyspace(KEYSPACE_NAME, cluster);
     }
@@ -43,7 +43,7 @@ public class Constants {
         return this.defaultColumnFamilyDefinition;
     }
 
-    Cluster getCurrentCluster() {
+    public Cluster getCurrentCluster() {
         if (this.cluster == null) {
             CassandraHostConfigurator cassandraHostConfigurator = new CassandraHostConfigurator();
             cassandraHostConfigurator.setHosts(HOST);
